@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище MINBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="LandCategories">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Наименование_участка" Type="varchar(max)" Nullable="false" />
+          <Property Name="Тип" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LandPlots">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="RegionID" Type="int" Nullable="false" />
+          <Property Name="LandCategoriesID" Type="int" Nullable="false" />
+          <Property Name="Кадастровый_номер" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Разрешенное_использование" Type="varchar(max)" Nullable="false" />
+          <Property Name="Площадь_(кв.м)" Type="decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Адрес" Type="varchar(max)" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="Дата_постановки_на_учет" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LeaseAgreements">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="LandPlotsID" Type="int" Nullable="false" />
+          <Property Name="Название_компании" Type="varchar(max)" Nullable="false" />
+          <Property Name="Арендатор" Type="varchar(max)" Nullable="false" />
+          <Property Name="Дата_начала" Type="date" Nullable="false" />
+          <Property Name="Дата_конца" Type="date" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PlotStatuses">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Статус" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Название_района" Type="varchar(max)" Nullable="false" />
+          <Property Name="Площадь_района_(кв.км)" Type="numeric" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Численность" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_LandPlots_PlotStatuses1">
+          <End Role="PlotStatuses" Type="Self.PlotStatuses" Multiplicity="1" />
+          <End Role="LandPlots" Type="Self.LandPlots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlotStatuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LandPlots">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LandPlots_Property">
+          <End Role="LandCategories" Type="Self.LandCategories" Multiplicity="1" />
+          <End Role="LandPlots" Type="Self.LandPlots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandCategories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LandPlots">
+              <PropertyRef Name="LandCategoriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LandPlots_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="LandPlots" Type="Self.LandPlots" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LandPlots">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaseAgreements_LandPlots">
+          <End Role="LandPlots" Type="Self.LandPlots" Multiplicity="1" />
+          <End Role="LeaseAgreements" Type="Self.LeaseAgreements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandPlots">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaseAgreements">
+              <PropertyRef Name="LandPlotsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaseAgreements_PlotStatuses1">
+          <End Role="PlotStatuses" Type="Self.PlotStatuses" Multiplicity="1" />
+          <End Role="LeaseAgreements" Type="Self.LeaseAgreements" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlotStatuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaseAgreements">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MINBaseModelContainer">
+          <EntitySet Name="LandCategories" EntityType="Self.LandCategories" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LandPlots" EntityType="Self.LandPlots" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LeaseAgreements" EntityType="Self.LeaseAgreements" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlotStatuses" EntityType="Self.PlotStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Region" EntityType="Self.Region" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_LandPlots_PlotStatuses1" Association="Self.FK_LandPlots_PlotStatuses1">
+            <End Role="PlotStatuses" EntitySet="PlotStatuses" />
+            <End Role="LandPlots" EntitySet="LandPlots" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LandPlots_Property" Association="Self.FK_LandPlots_Property">
+            <End Role="LandCategories" EntitySet="LandCategories" />
+            <End Role="LandPlots" EntitySet="LandPlots" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LandPlots_Region" Association="Self.FK_LandPlots_Region">
+            <End Role="Region" EntitySet="Region" />
+            <End Role="LandPlots" EntitySet="LandPlots" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseAgreements_LandPlots" Association="Self.FK_LeaseAgreements_LandPlots">
+            <End Role="LandPlots" EntitySet="LandPlots" />
+            <End Role="LeaseAgreements" EntitySet="LeaseAgreements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseAgreements_PlotStatuses1" Association="Self.FK_LeaseAgreements_PlotStatuses1">
+            <End Role="PlotStatuses" EntitySet="PlotStatuses" />
+            <End Role="LeaseAgreements" EntitySet="LeaseAgreements" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MINBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LandCategory">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Наименование_участка" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Тип" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="LandPlots" Relationship="Self.FK_LandPlots_Property" FromRole="LandCategories" ToRole="LandPlots" />
+        </EntityType>
+        <EntityType Name="LandPlot">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="RegionID" Type="Int32" Nullable="false" />
+          <Property Name="LandCategoriesID" Type="Int32" Nullable="false" />
+          <Property Name="Кадастровый_номер" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Разрешенное_использование" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Площадь__кв_м_" Type="Decimal" Precision="12" Scale="2" Nullable="false" />
+          <Property Name="Адрес" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="Дата_постановки_на_учет" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="LandCategory" Relationship="Self.FK_LandPlots_Property" FromRole="LandPlots" ToRole="LandCategories" />
+          <NavigationProperty Name="PlotStatus" Relationship="Self.FK_LandPlots_PlotStatuses1" FromRole="LandPlots" ToRole="PlotStatuses" />
+          <NavigationProperty Name="Region" Relationship="Self.FK_LandPlots_Region" FromRole="LandPlots" ToRole="Region" />
+          <NavigationProperty Name="LeaseAgreements" Relationship="Self.FK_LeaseAgreements_LandPlots" FromRole="LandPlots" ToRole="LeaseAgreements" />
+        </EntityType>
+        <EntityType Name="LeaseAgreement">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="LandPlotsID" Type="Int32" Nullable="false" />
+          <Property Name="Название_компании" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Арендатор" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Дата_начала" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Дата_конца" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LandPlot" Relationship="Self.FK_LeaseAgreements_LandPlots" FromRole="LeaseAgreements" ToRole="LandPlots" />
+          <NavigationProperty Name="PlotStatus" Relationship="Self.FK_LeaseAgreements_PlotStatuses1" FromRole="LeaseAgreements" ToRole="PlotStatuses" />
+        </EntityType>
+        <EntityType Name="PlotStatus">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Статус" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="LandPlots" Relationship="Self.FK_LandPlots_PlotStatuses1" FromRole="PlotStatuses" ToRole="LandPlots" />
+          <NavigationProperty Name="LeaseAgreements" Relationship="Self.FK_LeaseAgreements_PlotStatuses1" FromRole="PlotStatuses" ToRole="LeaseAgreements" />
+        </EntityType>
+        <EntityType Name="Region">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Название_района" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Площадь_района__кв_км_" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="Численность" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="LandPlots" Relationship="Self.FK_LandPlots_Region" FromRole="Region" ToRole="LandPlots" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_LandPlots_Property">
+          <End Role="LandCategories" Type="Self.LandCategory" Multiplicity="1" />
+          <End Role="LandPlots" Type="Self.LandPlot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandCategories">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LandPlots">
+              <PropertyRef Name="LandCategoriesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LandPlots_PlotStatuses1">
+          <End Role="PlotStatuses" Type="Self.PlotStatus" Multiplicity="1" />
+          <End Role="LandPlots" Type="Self.LandPlot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlotStatuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LandPlots">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LandPlots_Region">
+          <End Role="Region" Type="Self.Region" Multiplicity="1" />
+          <End Role="LandPlots" Type="Self.LandPlot" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Region">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LandPlots">
+              <PropertyRef Name="RegionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaseAgreements_LandPlots">
+          <End Role="LandPlots" Type="Self.LandPlot" Multiplicity="1" />
+          <End Role="LeaseAgreements" Type="Self.LeaseAgreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LandPlots">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaseAgreements">
+              <PropertyRef Name="LandPlotsID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_LeaseAgreements_PlotStatuses1">
+          <End Role="PlotStatuses" Type="Self.PlotStatus" Multiplicity="1" />
+          <End Role="LeaseAgreements" Type="Self.LeaseAgreement" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PlotStatuses">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LeaseAgreements">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LandCategories" EntityType="Self.LandCategory" />
+          <EntitySet Name="LandPlots" EntityType="Self.LandPlot" />
+          <EntitySet Name="LeaseAgreements" EntityType="Self.LeaseAgreement" />
+          <EntitySet Name="PlotStatuses" EntityType="Self.PlotStatus" />
+          <EntitySet Name="Regions" EntityType="Self.Region" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_LandPlots_Property" Association="Self.FK_LandPlots_Property">
+            <End Role="LandCategories" EntitySet="LandCategories" />
+            <End Role="LandPlots" EntitySet="LandPlots" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LandPlots_PlotStatuses1" Association="Self.FK_LandPlots_PlotStatuses1">
+            <End Role="PlotStatuses" EntitySet="PlotStatuses" />
+            <End Role="LandPlots" EntitySet="LandPlots" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LandPlots_Region" Association="Self.FK_LandPlots_Region">
+            <End Role="Region" EntitySet="Regions" />
+            <End Role="LandPlots" EntitySet="LandPlots" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseAgreements_LandPlots" Association="Self.FK_LeaseAgreements_LandPlots">
+            <End Role="LandPlots" EntitySet="LandPlots" />
+            <End Role="LeaseAgreements" EntitySet="LeaseAgreements" />
+          </AssociationSet>
+          <AssociationSet Name="FK_LeaseAgreements_PlotStatuses1" Association="Self.FK_LeaseAgreements_PlotStatuses1">
+            <End Role="PlotStatuses" EntitySet="PlotStatuses" />
+            <End Role="LeaseAgreements" EntitySet="LeaseAgreements" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MINBaseModelContainer" CdmEntityContainer="Entities1">
+          <EntitySetMapping Name="LandCategories">
+            <EntityTypeMapping TypeName="MINBaseModel.LandCategory">
+              <MappingFragment StoreEntitySet="LandCategories">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Наименование_участка" ColumnName="Наименование_участка" />
+                <ScalarProperty Name="Тип" ColumnName="Тип" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LandPlots">
+            <EntityTypeMapping TypeName="MINBaseModel.LandPlot">
+              <MappingFragment StoreEntitySet="LandPlots">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="RegionID" ColumnName="RegionID" />
+                <ScalarProperty Name="LandCategoriesID" ColumnName="LandCategoriesID" />
+                <ScalarProperty Name="Кадастровый_номер" ColumnName="Кадастровый_номер" />
+                <ScalarProperty Name="Разрешенное_использование" ColumnName="Разрешенное_использование" />
+                <ScalarProperty Name="Площадь__кв_м_" ColumnName="Площадь_(кв.м)" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Дата_постановки_на_учет" ColumnName="Дата_постановки_на_учет" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LeaseAgreements">
+            <EntityTypeMapping TypeName="MINBaseModel.LeaseAgreement">
+              <MappingFragment StoreEntitySet="LeaseAgreements">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LandPlotsID" ColumnName="LandPlotsID" />
+                <ScalarProperty Name="Название_компании" ColumnName="Название_компании" />
+                <ScalarProperty Name="Арендатор" ColumnName="Арендатор" />
+                <ScalarProperty Name="Дата_начала" ColumnName="Дата_начала" />
+                <ScalarProperty Name="Дата_конца" ColumnName="Дата_конца" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlotStatuses">
+            <EntityTypeMapping TypeName="MINBaseModel.PlotStatus">
+              <MappingFragment StoreEntitySet="PlotStatuses">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Статус" ColumnName="Статус" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Regions">
+            <EntityTypeMapping TypeName="MINBaseModel.Region">
+              <MappingFragment StoreEntitySet="Region">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Название_района" ColumnName="Название_района" />
+                <ScalarProperty Name="Площадь_района__кв_км_" ColumnName="Площадь_района_(кв.км)" />
+                <ScalarProperty Name="Численность" ColumnName="Численность" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MINBaseModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

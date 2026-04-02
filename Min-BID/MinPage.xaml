@@ -1,0 +1,38 @@
+﻿<Page x:Class="Min_BID.MinPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Min_BID"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MinPage" IsVisibleChanged="Page_IsVisibleChanged">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="353*"/>
+            <RowDefinition Height="96*"/>
+        </Grid.RowDefinitions>
+        <DataGrid x:Name="DGridMindash" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название компании" Binding="{Binding Название_компании}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Арендатор" Binding="{Binding Арендатор}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата начала" Binding="{Binding Дата_начала}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата конца" Binding="{Binding Дата_конца}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Земельный участок" Binding="{Binding LandPlotsID}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Статус" Binding="{Binding StatusID}" Width="*"></DataGridTextColumn>
+                <DataGridTemplateColumn Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Редактировать" Name="BtnEdit" Click="BtnEdit_Click"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Name="BtnDelete" Grid.Row="1" Content="Удалить" Width="150" HorizontalAlignment="Left" Margin="612,16,0,16" Click="BtnDelete_Click"/>
+        <Button Name="BtnAdd" Grid.Row="1" Content="Добавить" Width="150" HorizontalAlignment="Left" Margin="26,16,0,16" Click="BtnAdd_Click"/>
+
+    </Grid>
+
+</Page>

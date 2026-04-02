@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="c37d50ecf71e4acea5c71732157efa17" Name="Diagram1" ZoomLevel="83">
+        <EntityTypeShape EntityType="MINBaseModel.LandCategory" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MINBaseModel.LandPlot" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MINBaseModel.LeaseAgreement" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MINBaseModel.PlotStatus" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MINBaseModel.Region" Width="1.5" PointX="3.5" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MINBaseModel.sysdiagram" Width="1.5" PointX="6.625" PointY="5.625" IsExpanded="true" />
+        <AssociationConnector Association="MINBaseModel.FK_LandPlots_Property" ManuallyRouted="false" />
+        <AssociationConnector Association="MINBaseModel.FK_LandPlots_PlotStatuses1" ManuallyRouted="false" />
+        <AssociationConnector Association="MINBaseModel.FK_LandPlots_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="MINBaseModel.FK_LeaseAgreements_LandPlots" ManuallyRouted="false" />
+        <AssociationConnector Association="MINBaseModel.FK_LeaseAgreements_PlotStatuses1" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
