@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Min_BID;
 
 namespace Min_BID
 {
@@ -25,7 +26,38 @@ namespace Min_BID
             InitializeComponent();
             MainFrame.Navigate(new MinPage());
             Manager.MainFrame = MainFrame;
+            CheckUserRole();
         }
+
+        private void CheckUserRole()
+        {
+            // Если пользователь не администратор, скрываем кнопку "Пользователи"
+            if (App.CurrentUser != null && App.CurrentUser.Role.Роль_пользователя != "Администратор")
+            {
+                btnUsers.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void btnLeaseAgreements_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new MinPage());
+        }
+
+        private void btnLandPlots_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new LandPlotsPage());
+        }
+
+        private void btnUsers_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new UsersPage());
+        }
+
+        private void btnAnalytics_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Navigate(new AnalyticsPage());
+        }
+    
 
         private void Btnback_Click(object sender, RoutedEventArgs e)
         {

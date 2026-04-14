@@ -63,14 +63,29 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddEditLandPlotsPage.xaml.cs">
+      <DependentUpon>AddEditLandPlotsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddEditUserWindow.xaml.cs">
+      <DependentUpon>AddEditUserWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AnalyticsPage.xaml.cs">
+      <DependentUpon>AnalyticsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LandCategory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="LandPlot.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="LandPlotsPage.xaml.cs">
+      <DependentUpon>LandPlotsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LeaseAgreement.cs">
       <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model1.cs">
       <AutoGen>True</AutoGen>
@@ -83,10 +98,39 @@
     <Compile Include="Region.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Role.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UsersPage.xaml.cs">
+      <DependentUpon>UsersPage.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AddEditLandPlotsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddEditPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddEditUserWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AnalyticsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LandPlotsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -106,6 +150,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MinPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UsersPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

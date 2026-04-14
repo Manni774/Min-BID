@@ -1,0 +1,62 @@
+﻿<Page x:Class="Min_BID.AddEditLandPlotsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Min_BID"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Страница редактирования земельных участков">
+
+    <Grid Margin="0,-10,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="16*"/>
+            <RowDefinition Height="52*"/>
+            <RowDefinition Height="52*"/>
+            <RowDefinition Height="56*"/>
+            <RowDefinition Height="57*"/>
+            <RowDefinition Height="64*"/>
+            <RowDefinition Height="64*"/>
+            <RowDefinition Height="89*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="233*"/>
+            <ColumnDefinition Width="567*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Grid.Row="1" Text="Кадастровый номер" Height="22" Margin="10,0,0,0" Width="159" />
+        <TextBlock Grid.Row="2" Text="Адрес" Height="20" Margin="10,0,0,0" Width="85"></TextBlock>
+        <TextBlock Grid.Row="3" Text="Разрешенное использование" Height="22" Margin="10,0,0,0" Width="215"></TextBlock>
+        <TextBlock Grid.Row="4" Text="Дата постановки на учет" Height="22" Margin="10,0,0,0" Width="215"></TextBlock>
+        <TextBlock Grid.Row="5" Text="Статус" Height="22" Margin="10,0,0,0" Width="100" ></TextBlock>
+        <ComboBox x:Name="CmbCadastralNumber" 
+                 Grid.Row="1" Grid.Column="1" 
+                 Margin="33,5,34,5"
+                 DisplayMemberPath="Кадастровый_номер"
+                 SelectedValue="{Binding Кадастровый_номер, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        </ComboBox>
+        <TextBox Text="{Binding Адрес}" MaxLength="500" 
+             Grid.Row="2" Grid.Column="1" Margin="33,3,34,5"/>
+        <ComboBox x:Name="CmbCategoryName" 
+            Grid.Row="3" Grid.Column="1" 
+            Margin="33,5,34,5"
+            SelectedValuePath="ID"
+            DisplayMemberPath="Наименование_участка"
+            SelectedValue="{Binding Разрешенное_использование, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        </ComboBox>
+        <DatePicker SelectedDate="{Binding Дата_постановки_на_учет}" 
+                Grid.Row="4" Grid.Column="1" Margin="0,5,0,5" Width="500" HorizontalAlignment="Center" />
+        <ComboBox x:Name="CmbStatus" 
+                Grid.Row="5" Grid.Column="1" 
+                Margin="33,5,34,5"
+                DisplayMemberPath="Статус"
+                SelectedValuePath="ID"
+                SelectedValue="{Binding StatusID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        </ComboBox>
+        <StackPanel Grid.Row="7" 
+                Orientation="Horizontal" 
+                HorizontalAlignment="Left" Margin="73,10,0,10" Width="210" Grid.Column="1">
+            <Button x:Name="BtnSave" Content="Сохранить" 
+                Click="BtnSave_Click" Width="200" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</Page>

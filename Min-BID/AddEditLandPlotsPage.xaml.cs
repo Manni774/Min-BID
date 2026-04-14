@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,43 +16,45 @@ using System.Windows.Shapes;
 namespace Min_BID
 {
     /// <summary>
-    /// Логика взаимодействия для AddEditPage.xaml
+    /// Логика взаимодействия для AddEditLandPlotsPage.xaml
     /// </summary>
-    public partial class AddEditPage : Page
+    public partial class AddEditLandPlotsPage : Page
     {
-        private LeaseAgreement _currentAgreement = new LeaseAgreement();
-        public AddEditPage(LeaseAgreement selectedLeaseAgreemnt)
+        private LandPlot _currentPlot = new LandPlot();
+        public AddEditLandPlotsPage(LandPlot selectedLandPlot)
         {
             InitializeComponent();
-            if (selectedLeaseAgreemnt != null)
-                _currentAgreement = selectedLeaseAgreemnt;
-            DataContext = _currentAgreement;
+            if (selectedLandPlot != null)
+                _currentPlot = selectedLandPlot;
+            DataContext = _currentPlot;
 
-            CmbLandPlot.ItemsSource = Entities1.GetContext().LandPlots.ToList();
+            CmbCadastralNumber.ItemsSource = Entities1.GetContext().LandPlots.ToList();
             CmbStatus.ItemsSource = Entities1.GetContext().PlotStatuses.ToList();
+            CmbCategoryName.ItemsSource = Entities1.GetContext().LandCategories.ToList();
+
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder errors = new StringBuilder();
 
-            if (string.IsNullOrWhiteSpace(_currentAgreement.Название_компании))
+            /*if (string.IsNullOrWhiteSpace(_currentPlots.Название_компании))
                 errors.AppendLine("Укажите название компании.");
 
-            if (string.IsNullOrWhiteSpace(_currentAgreement.Арендатор))
+            if (string.IsNullOrWhiteSpace(_currentPlots.Арендатор))
                 errors.AppendLine("Укажите арендатора компании.");
 
-            if (_currentAgreement.Дата_начала == null)
+            if (_currentPlots.Дата_начала == null)
                 errors.AppendLine("Укажите дату начала подписания договора.");
 
-            if (_currentAgreement.Дата_конца == null)
+            if (_currentPlots.Дата_конца == null)
                 errors.AppendLine("Укажите дату расторжения/завершения договора.");
 
-            if (_currentAgreement.LandPlotsID == 0)
+            if (_currentPlots.LandPlotsID == 0)
                 errors.AppendLine("Укажите земельный участок.");
 
-            if (_currentAgreement.StatusID == 0)
-                errors.AppendLine("Укажите статус договора.");
+            if (_currentPlots.StatusID == 0)
+                errors.AppendLine("Укажите статус договора.");*/
 
             if (errors.Length > 0)
             {
@@ -61,8 +62,8 @@ namespace Min_BID
                 return;
             }
 
-            if (_currentAgreement.ID == 0)
-                Entities1.GetContext().LeaseAgreements.Add(_currentAgreement);
+            if (_currentPlot.ID == 0)
+                Entities1.GetContext().LandPlots.Add(_currentPlot);
 
             try
             {

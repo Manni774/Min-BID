@@ -18,7 +18,6 @@ namespace Min_BID
 
         private static Entities1 _context;
 
-        
         public Entities1()
             : base("name=Entities1")
         {
@@ -30,7 +29,7 @@ namespace Min_BID
                 _context = new Entities1();
             return _context;
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -42,5 +41,8 @@ namespace Min_BID
         public DbSet<PlotStatus> PlotStatuses { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
     }
+
 }

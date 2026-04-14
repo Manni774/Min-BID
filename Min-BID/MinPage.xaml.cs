@@ -28,6 +28,41 @@ namespace Min_BID
             DGridMindash.ItemsSource = Entities1.GetContext().LeaseAgreements.ToList();
         }
 
+        private void LoadStatuses()
+        {
+            using (var context = new Entities1())
+            {
+                var statuses = context.PlotStatuses.ToList();
+                statuses.Insert(0, new PlotStatus { ID = 0, Статус = "Все" });
+                cmbStatusFilter.ItemsSource = statuses;
+                cmbStatusFilter.SelectedValue = 0;
+            }
+        }
+
+        private void Filter_Changed(object sender, RoutedEventArgs e)
+        {
+            using (var context = new Entities1())
+            {
+                var query = context.LeaseAgreements.Include(l => l.LandPlot)
+                                                   .Include(l => l.PlotStatus)
+                                                   .AsQueryable();
+
+                if (!string.IsNullOrWhiteSpace(txtCompanyFilter.Text))
+                    query = query.Where(l => l.Название_компании.Contains(txtCompanyFilter.Text));
+
+                if (!string.IsNullOrWhiteSpace(txtTenantFilter.Text))
+                    query = query.Where(l => l.Арендатор.Contains(txtTenantFilter.Text));
+
+                if (cmbStatusFilter.SelectedValue != null && (int)cmbStatusFilter.SelectedValue != 0)
+                {
+                    int statusId = (int)cmbStatusFilter.SelectedValue;
+                    query = query.Where(l => l.StatusID == statusId);
+                }
+
+                DGridMindash.ItemsSource = query.ToList();
+            }
+        }
+
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as LeaseAgreement));

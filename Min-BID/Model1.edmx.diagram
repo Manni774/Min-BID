@@ -16,6 +16,9 @@
         <AssociationConnector Association="MINBaseModel.FK_LandPlots_Region" ManuallyRouted="false" />
         <AssociationConnector Association="MINBaseModel.FK_LeaseAgreements_LandPlots" ManuallyRouted="false" />
         <AssociationConnector Association="MINBaseModel.FK_LeaseAgreements_PlotStatuses1" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MINBaseModel.Role" Width="1.5" PointX="7.375" PointY="1.25" />
+        <EntityTypeShape EntityType="MINBaseModel.User" Width="1.5" PointX="9.625" PointY="0.875" />
+        <AssociationConnector Association="MINBaseModel.FK_Users_Roles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -11,8 +11,22 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="353*"/>
-            <RowDefinition Height="96*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+            <TextBlock Text="Название компании:" VerticalAlignment="Center" Margin="5"/>
+            <TextBox x:Name="txtCompanyFilter" Width="150" Margin="5" TextChanged="Filter_Changed"/>
+
+            <TextBlock Text="Арендатор:" VerticalAlignment="Center" Margin="5"/>
+            <TextBox x:Name="txtTenantFilter" Width="150" Margin="5" TextChanged="Filter_Changed"/>
+
+            <TextBlock Text="Статус:" VerticalAlignment="Center" Margin="5"/>
+            <ComboBox x:Name="cmbStatusFilter" Width="120" Margin="5" 
+              DisplayMemberPath="Name" SelectedValuePath="ID"
+              SelectionChanged="Filter_Changed"/>
+        </StackPanel>
+
         <DataGrid x:Name="DGridMindash" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название компании" Binding="{Binding Название_компании}" Width="*"></DataGridTextColumn>
@@ -30,8 +44,10 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Name="BtnDelete" Grid.Row="1" Content="Удалить" Width="150" HorizontalAlignment="Left" Margin="612,16,0,16" Click="BtnDelete_Click"/>
-        <Button Name="BtnAdd" Grid.Row="1" Content="Добавить" Width="150" HorizontalAlignment="Left" Margin="26,16,0,16" Click="BtnAdd_Click"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Name="BtnDelete" Grid.Row="1" Content="Удалить" Width="150" HorizontalAlignment="Left" Click="BtnDelete_Click"/>
+            <Button Name="BtnAdd" Grid.Row="1" Content="Добавить" Width="150" HorizontalAlignment="Left" Click="BtnAdd_Click"/>
+        </StackPanel>
 
     </Grid>
 

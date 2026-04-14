@@ -18,5 +18,11 @@
         <Image Source="/Resources/Логотип Минземимущества_w110_fitted.jpg" HorizontalAlignment="Left" Width="66"></Image>
         <Frame NavigationUIVisibility="Hidden" ContentRendered="MainFrame_ContentRendered" Grid.Row="1" Name="MainFrame" Margin="0,1,0,0"></Frame>
         <Button Content="Обратно" Name="Btnback" Width="150" HorizontalAlignment="Left" Margin="598,13,0,13" Click="Btnback_Click"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button x:Name="btnLeaseAgreements" Content="Договоры аренды" Click="btnLeaseAgreements_Click" Width="175"/>
+            <Button x:Name="btnLandPlots" Content="Земельные участки" Click="btnLandPlots_Click" Width="175"/>
+            <Button x:Name="btnUsers" Content="Пользователи" Click="btnUsers_Click" Width="175"/>
+            <Button x:Name="btnAnalytics" Content="Аналитика" Click="btnAnalytics_Click" Width="175"/>
+        </StackPanel>
     </Grid>
 </Window>
