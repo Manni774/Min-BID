@@ -32,7 +32,7 @@
 
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Роль:" Margin="5,0,0,0" Height="21" Width="38"/>
         <ComboBox x:Name="cmbRole" Grid.Row="4" Grid.Column="1" Margin="5,5,5,5"
-                  DisplayMemberPath="Name" SelectedValuePath="ID"/>
+                  DisplayMemberPath="Name" SelectedValuePath="ID" SelectedValue="{Binding RolesID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
         <CheckBox x:Name="chkChangePassword" Grid.Row="5" Grid.ColumnSpan="2" 
                   Content="Изменить пароль" Margin="5,1,5,66" Visibility="Collapsed"/>

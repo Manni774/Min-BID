@@ -17,9 +17,10 @@
         <TextBlock Text="Управление пользователями" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold" Margin="10"/>
         <DataGrid x:Name="dgLandPlots" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Участок" Binding="{Binding RegionID}" Width="*"/>
                 <DataGridTextColumn Header="Кадастровый номер" Binding="{Binding Кадастровый_номер}" Width="*"/>
                 <DataGridTextColumn Header="Адрес" Binding="{Binding Адрес}" Width="*"/>
-                <DataGridTextColumn Header="Использование" Binding="{Binding Разрешенное_использование}" Width="*"/>
+                <DataGridTextColumn Header="Использование" Binding="{Binding LandCategoriesID}" Width="*"/>
                 <DataGridTextColumn Header="Дата постановки на учет" Binding="{Binding Дата_постановки_на_учет}" Width="*"/>
                 <DataGridTextColumn Header="Статус" Binding="{Binding StatusID}" Width="*"/>
                 <DataGridTemplateColumn Width="auto">

@@ -8,46 +8,49 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Страница редактирования земельных участков">
 
-    <Grid Margin="0,-10,0,10">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="16*"/>
+            <RowDefinition Height="63*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="50*"/>
+            <RowDefinition Height="63*"/>
             <RowDefinition Height="52*"/>
-            <RowDefinition Height="52*"/>
-            <RowDefinition Height="56*"/>
-            <RowDefinition Height="57*"/>
-            <RowDefinition Height="64*"/>
-            <RowDefinition Height="64*"/>
-            <RowDefinition Height="89*"/>
+            <RowDefinition Height="66*"/>
+            <RowDefinition Height="90*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="233*"/>
             <ColumnDefinition Width="567*"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Grid.Row="1" Text="Кадастровый номер" Height="22" Margin="10,0,0,0" Width="159" />
-        <TextBlock Grid.Row="2" Text="Адрес" Height="20" Margin="10,0,0,0" Width="85"></TextBlock>
-        <TextBlock Grid.Row="3" Text="Разрешенное использование" Height="22" Margin="10,0,0,0" Width="215"></TextBlock>
-        <TextBlock Grid.Row="4" Text="Дата постановки на учет" Height="22" Margin="10,0,0,0" Width="215"></TextBlock>
-        <TextBlock Grid.Row="5" Text="Статус" Height="22" Margin="10,0,0,0" Width="100" ></TextBlock>
-        <ComboBox x:Name="CmbCadastralNumber" 
-                 Grid.Row="1" Grid.Column="1" 
-                 Margin="33,5,34,5"
-                 DisplayMemberPath="Кадастровый_номер"
-                 SelectedValuePath="Кадастровый_номер"
-                 SelectedValue="{Binding Кадастровый_номер, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-        </ComboBox>
-        <TextBox Text="{Binding Адрес}" MaxLength="500" 
-             Grid.Row="2" Grid.Column="1" Margin="33,3,34,5"/>
-        <ComboBox x:Name="CmbCategoryName" 
-            Grid.Row="3" Grid.Column="1" 
+        <TextBlock Grid.Row="1" Text="Участок" Height="22" Margin="17,0,0,0" Width="159" />
+        <TextBlock Grid.Row="2" Text="Кадастровый номер" Height="22" Margin="17,0,0,0" Width="159" />
+        <TextBlock Grid.Row="3" Text="Адрес" Height="20" Margin="17,0,0,0" Width="85"></TextBlock>
+        <TextBlock Grid.Row="4" Text="Использование" Height="22" Width="215" Margin="17,0,0,0"/>
+        <TextBlock Grid.Row="5" Text="Дата постановки на учет" Height="22" Width="215" Margin="17,0,0,0"/>
+        <TextBlock Grid.Row="6" Text="Статус" Height="22" Margin="17,0,0,0" Width="100" ></TextBlock>
+        <ComboBox x:Name="CmbRegion" 
+            Grid.Row="1" Grid.Column="1" 
             Margin="33,5,34,5"
-            SelectedValuePath="ID"
+            DisplayMemberPath="Название_района"
+            SelectedValuePath="ID"      
+            SelectedValue="{Binding RegionID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+        </ComboBox>
+        <TextBox Text="{Binding Кадастровый_номер}" MaxLength="500" 
+             Grid.Row="2" Grid.Column="1"  Margin="33,3,34,5"/>
+        <TextBox Text="{Binding Адрес}" MaxLength="500" 
+             Grid.Row="3" Grid.Column="1" Margin="33,3,34,5"/>
+        <ComboBox x:Name="CmbCategoryName" 
+            Grid.Row="4" Grid.Column="1" 
+            Margin="33,5,34,5"
             DisplayMemberPath="Наименование_участка"
-            SelectedValue="{Binding Разрешенное_использование, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            SelectedValuePath="ID"      
+            SelectedValue="{Binding LandCategoriesID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
         </ComboBox>
         <DatePicker SelectedDate="{Binding Дата_постановки_на_учет}" 
-                Grid.Row="4" Grid.Column="1" Margin="0,5,0,5" Width="500" HorizontalAlignment="Center" />
+                Grid.Row="5" Grid.Column="1" Margin="0,5,0,5" Width="500" HorizontalAlignment="Center" />
         <ComboBox x:Name="CmbStatus" 
-                Grid.Row="5" Grid.Column="1" 
+                Grid.Row="6" Grid.Column="1" 
                 Margin="33,5,34,5"
                 DisplayMemberPath="Статус"
                 SelectedValuePath="ID"

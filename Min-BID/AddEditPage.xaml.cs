@@ -71,8 +71,7 @@ namespace Min_BID
             }
             catch (Exception ex)
             {
-
-                MessageBox.Show("Произошла ошибка при сохранении данных.");
+                MessageBox.Show($"Ошибка: {ex.Message}\n{ex.InnerException?.Message}", "Ошибка сохранения");
             }
         }
     }

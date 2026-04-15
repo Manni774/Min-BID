@@ -24,7 +24,7 @@ namespace Min_BID
         public int LandCategoriesID { get; set; }
         public string Кадастровый_номер { get; set; }
         public string Разрешенное_использование { get; set; }
-        public decimal Площадь__кв_м_ { get; set; }
+        public Nullable<decimal> Площадь__кв_м_ { get; set; }
         public string Адрес { get; set; }
         public int StatusID { get; set; }
         public System.DateTime Дата_постановки_на_учет { get; set; }

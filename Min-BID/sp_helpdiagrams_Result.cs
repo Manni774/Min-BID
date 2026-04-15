@@ -10,17 +10,13 @@
 namespace Min_BID
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class User
+    public partial class sp_helpdiagrams_Result
     {
+        public string Database { get; set; }
+        public string Name { get; set; }
         public int ID { get; set; }
-        public Nullable<int> RolesID { get; set; }
-        public string Логин { get; set; }
-        public string Хэш_пароль { get; set; }
-        public string Соль { get; set; }
-        public string Пароль { get; set; }
-    
-        public virtual Role Role { get; set; }
+        public string Owner { get; set; }
+        public int OwnerID { get; set; }
     }
 }

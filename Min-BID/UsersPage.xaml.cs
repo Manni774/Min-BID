@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,23 +14,41 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity.Validation;
 
 namespace Min_BID
 {
     /// <summary>
     /// Логика взаимодействия для UsersPage.xaml
     /// </summary>
+
     public partial class UsersPage : Page
     {
         public UsersPage()
         {
             InitializeComponent();
-            dgUsers.ItemsSource = Entities1.GetContext().Users.ToList();
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            using (var context = new Entities1())
+            {
+                // Загружаем пользователей вместе с ролью (для отображения названия)
+                var users = context.Users.Include("Role").ToList();
+                dgUsers.ItemsSource = users;
+            }
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            Manager.MainFrame.Navigate(new AddEditUserWindow((sender as Button).DataContext as User));
+            var user = (sender as Button)?.DataContext as User;
+            if (user == null)
+            {
+                MessageBox.Show("Выберите пользователя для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            Manager.MainFrame.Navigate(new AddEditUserWindow(user));
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
@@ -39,44 +58,36 @@ namespace Min_BID
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var userRemove = dgUsers.SelectedItems.Cast<User>().ToList();
+            var selected = dgUsers.SelectedItems.Cast<User>().ToList();
+            if (!selected.Any()) return;
 
-            if (userRemove.Any())
+            if (MessageBox.Show($"Удалить {selected.Count()} пользователей?", "Подтверждение",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if (MessageBox.Show($"Вы точно хотите удалить следующие {userRemove.Count()} элементов?", "Внимание",
-                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                using (var context = new Entities1())
                 {
-                    try
+                    foreach (var item in selected)
                     {
-                        var context = Entities1.GetContext();
-                        foreach (var item in userRemove)
+                        // Запрещаем удалять самого себя
+                        if (App.CurrentUser != null && item.ID == App.CurrentUser.ID)
                         {
-                            context.Users.Remove(item);
+                            MessageBox.Show("Нельзя удалить самого себя.", "Предупреждение", MessageBoxButton.OK, MessageBoxImage.Warning);
+                            continue;
                         }
-                        context.SaveChanges();
-                        MessageBox.Show("Данные удалены.");
-                        dgUsers.ItemsSource = new Entities1().Users.ToList();
+                        context.Users.Attach(item);
+                        context.Users.Remove(item);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    context.SaveChanges();
                 }
+                LoadData();
+                MessageBox.Show("Данные удалены.");
             }
         }
 
         private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var context = Entities1.GetContext();
-            foreach (var entry in context.ChangeTracker.Entries().ToList())
-            {
-                if (entry.State != EntityState.Added)
-                {
-                    entry.Reload();
-                }
-            }
-            dgUsers.ItemsSource = context.Users.ToList();
+            if (Visibility == Visibility.Visible)
+                LoadData();
         }
-
     }
 }

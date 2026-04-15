@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,23 +14,36 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity.Validation;
 
 namespace Min_BID
 {
+
     /// <summary>
     /// Логика взаимодействия для LandPlotsPage.xaml
     /// </summary>
+
     public partial class LandPlotsPage : Page
     {
         public LandPlotsPage()
         {
             InitializeComponent();
-            dgLandPlots.ItemsSource = Entities1.GetContext().LandPlots.ToList();
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            using (var context = new Entities1())
+            {
+                dgLandPlots.ItemsSource = context.LandPlots.ToList();
+            }
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            Manager.MainFrame.Navigate(new AddEditLandPlotsPage((sender as Button).DataContext as LandPlot));
+            var plot = (sender as Button)?.DataContext as LandPlot;
+            if (plot == null) return;
+            Manager.MainFrame.Navigate(new AddEditLandPlotsPage(plot));
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
@@ -39,44 +53,30 @@ namespace Min_BID
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var plotRemove = dgLandPlots.SelectedItems.Cast<LandPlot>().ToList();
+            var selected = dgLandPlots.SelectedItems.Cast<LandPlot>().ToList();
+            if (!selected.Any()) return;
 
-            if (plotRemove.Any())
+            if (MessageBox.Show($"Удалить {selected.Count()} записей?", "Подтверждение",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if (MessageBox.Show($"Вы точно хотите удалить следующие {plotRemove.Count()} элементов?", "Внимание",
-                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                using (var context = new Entities1())
                 {
-                    try
+                    foreach (var item in selected)
                     {
-                        var context = Entities1.GetContext();
-                        foreach (var item in plotRemove)
-                        {
-                            context.LandPlots.Remove(item);
-                        }
-                        context.SaveChanges();
-                        MessageBox.Show("Данные удалены.");
-                        dgLandPlots.ItemsSource = new Entities1().LandPlots.ToList();
+                        context.LandPlots.Attach(item);
+                        context.LandPlots.Remove(item);
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+                    context.SaveChanges();
                 }
+                LoadData();
+                MessageBox.Show("Данные удалены.");
             }
         }
 
         private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            var context = Entities1.GetContext();
-            foreach (var entry in context.ChangeTracker.Entries().ToList())
-            {
-                if (entry.State != EntityState.Added)
-                {
-                    entry.Reload();
-                }
-            }
-            dgLandPlots.ItemsSource = context.LandPlots.ToList();
+            if (Visibility == Visibility.Visible)
+                LoadData();
         }
-
     }
 }

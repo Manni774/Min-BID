@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data.Entity.Validation;
 
 namespace Min_BID
 {
@@ -28,52 +31,59 @@ namespace Min_BID
                 _currentPlot = selectedLandPlot;
             DataContext = _currentPlot;
 
-            CmbCadastralNumber.ItemsSource = Entities1.GetContext().LandPlots.ToList();
-            CmbStatus.ItemsSource = Entities1.GetContext().PlotStatuses.ToList();
-            CmbCategoryName.ItemsSource = Entities1.GetContext().LandCategories.ToList();
-
+            using (var context = new Entities1())
+            {
+                CmbRegion.ItemsSource = context.Regions.ToList();
+                CmbStatus.ItemsSource = context.PlotStatuses.ToList();
+                CmbCategoryName.ItemsSource = context.LandCategories.ToList();
+            }
         }
-
+        
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
-            StringBuilder errors = new StringBuilder();
-
-            /*if (string.IsNullOrWhiteSpace(_currentPlots.Название_компании))
-                errors.AppendLine("Укажите название компании.");
-
-            if (string.IsNullOrWhiteSpace(_currentPlots.Арендатор))
-                errors.AppendLine("Укажите арендатора компании.");
-
-            if (_currentPlots.Дата_начала == null)
-                errors.AppendLine("Укажите дату начала подписания договора.");
-
-            if (_currentPlots.Дата_конца == null)
-                errors.AppendLine("Укажите дату расторжения/завершения договора.");
-
-            if (_currentPlots.LandPlotsID == 0)
-                errors.AppendLine("Укажите земельный участок.");
-
-            if (_currentPlots.StatusID == 0)
-                errors.AppendLine("Укажите статус договора.");*/
-
-            if (errors.Length > 0)
+            // Валидация (добавьте свои проверки)
+            if (string.IsNullOrWhiteSpace(_currentPlot.Кадастровый_номер))
             {
-                MessageBox.Show(errors.ToString());
+                MessageBox.Show("Введите кадастровый номер");
                 return;
             }
 
-            if (_currentPlot.ID == 0)
-                Entities1.GetContext().LandPlots.Add(_currentPlot);
-
-            try
+            using (var context = new Entities1())
             {
-                Entities1.GetContext().SaveChanges();
-                MessageBox.Show("Информация сохранена.");
-            }
-            catch (Exception ex)
-            {
+                if (_currentPlot.ID == 0)
+                    context.LandPlots.Add(_currentPlot);
+                else
+                {
+                    context.LandPlots.Attach(_currentPlot);
+                    context.Entry(_currentPlot).State = EntityState.Modified;
+                }
 
-                MessageBox.Show("Произошла ошибка при сохранении данных.");
+                try
+                {
+                    context.SaveChanges();
+                    MessageBox.Show("Сохранено");
+                    if (NavigationService.CanGoBack) NavigationService.GoBack();
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException valEx)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("Ошибка валидации данных:");
+                    foreach (var error in valEx.EntityValidationErrors)
+                    {
+                        foreach (var detail in error.ValidationErrors)
+                        {
+                            sb.AppendLine($"  Поле: {detail.PropertyName}, Ошибка: {detail.ErrorMessage}");
+                        }
+                    }
+                    MessageBox.Show(sb.ToString(), "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                catch (Exception ex)
+                {
+                    string msg = ex.Message;
+                    if (ex.InnerException != null)
+                        msg += "\n\n" + ex.InnerException.Message;
+                    MessageBox.Show(msg, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
     }
