@@ -24,40 +24,10 @@ namespace Min_BID
         public MainWindow()
         {
             InitializeComponent();
-            MainFrame.Navigate(new MinPage());
+            MainFrame.Navigate(new FourButtonsPage());
             Manager.MainFrame = MainFrame;
-            CheckUserRole();
+            NavigationManager.Initialize(MainFrame);
         }
-
-        private void CheckUserRole()
-        {
-            // Если пользователь не администратор, скрываем кнопку "Пользователи"
-            if (App.CurrentUser != null && App.CurrentUser.Role.Роль_пользователя != "Администратор")
-            {
-                btnUsers.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void btnLeaseAgreements_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new MinPage());
-        }
-
-        private void btnLandPlots_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new LandPlotsPage());
-        }
-
-        private void btnUsers_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new UsersPage());
-        }
-
-        private void btnAnalytics_Click(object sender, RoutedEventArgs e)
-        {
-            MainFrame.Navigate(new AnalyticsPage());
-        }
-    
 
         private void Btnback_Click(object sender, RoutedEventArgs e)
         {

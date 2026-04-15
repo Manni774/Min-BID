@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:Min_BID"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="Пользователи">
+      Title="Пользователи" IsVisibleChanged="Page_IsVisibleChanged">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -20,8 +20,8 @@
                   CanUserAddRows="False" CanUserDeleteRows="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding ID}" Width="50"/>
-                <DataGridTextColumn Header="Логин" Binding="{Binding Логин}" Width="150"/>
-                <DataGridTextColumn Header="Роль" Binding="{Binding Роль_пользователя}" Width="150"/>
+                <DataGridTextColumn Header="Логин" Binding="{Binding Логин}" Width="auto"/>
+                <DataGridTextColumn Header="Роль" Binding="{Binding Роль_пользователя.Name}" Width="150"/>
                 <DataGridTemplateColumn Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

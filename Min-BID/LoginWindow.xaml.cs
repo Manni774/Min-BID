@@ -30,11 +30,11 @@ namespace Min_BID
             string login = txtLogin.Text.Trim();
             string password = txtPassword.Password;
 
-            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
+            /*if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(password))
             {
                 tbError.Text = "Введите логин и пароль";
                 return;
-            }
+            }*/
 
             btnLogin.IsEnabled = false;
             progressBar.Visibility = Visibility.Visible;

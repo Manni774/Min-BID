@@ -75,7 +75,7 @@ namespace Min_BID
                     entry.Reload();
                 }
             }
-            dgLandPlots.ItemsSource = context.LeaseAgreements.ToList();
+            dgLandPlots.ItemsSource = context.LandPlots.ToList();
         }
 
     }

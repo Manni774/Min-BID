@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,38 +24,38 @@ namespace Min_BID
         public UsersPage()
         {
             InitializeComponent();
-            dgUsers.ItemsSource = Entities1.GetContext().LandPlots.ToList();
+            dgUsers.ItemsSource = Entities1.GetContext().Users.ToList();
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            Manager.MainFrame.Navigate(new AddEditLandPlotsPage((sender as Button).DataContext as LandPlot));
+            Manager.MainFrame.Navigate(new AddEditUserWindow((sender as Button).DataContext as User));
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Manager.MainFrame.Navigate(new AddEditLandPlotsPage(null));
+            Manager.MainFrame.Navigate(new AddEditUserWindow(null));
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)
         {
-            var plotRemove = dgUsers.SelectedItems.Cast<LandPlot>().ToList();
+            var userRemove = dgUsers.SelectedItems.Cast<User>().ToList();
 
-            if (plotRemove.Any())
+            if (userRemove.Any())
             {
-                if (MessageBox.Show($"Вы точно хотите удалить следующие {plotRemove.Count()} элементов?", "Внимание",
+                if (MessageBox.Show($"Вы точно хотите удалить следующие {userRemove.Count()} элементов?", "Внимание",
                     MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     try
                     {
                         var context = Entities1.GetContext();
-                        foreach (var item in plotRemove)
+                        foreach (var item in userRemove)
                         {
-                            context.LandPlots.Remove(item);
+                            context.Users.Remove(item);
                         }
                         context.SaveChanges();
                         MessageBox.Show("Данные удалены.");
-                        dgUsers.ItemsSource = new Entities1().LandPlots.ToList();
+                        dgUsers.ItemsSource = new Entities1().Users.ToList();
                     }
                     catch (Exception ex)
                     {
@@ -62,6 +63,19 @@ namespace Min_BID
                     }
                 }
             }
+        }
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            var context = Entities1.GetContext();
+            foreach (var entry in context.ChangeTracker.Entries().ToList())
+            {
+                if (entry.State != EntityState.Added)
+                {
+                    entry.Reload();
+                }
+            }
+            dgUsers.ItemsSource = context.Users.ToList();
         }
 
     }
