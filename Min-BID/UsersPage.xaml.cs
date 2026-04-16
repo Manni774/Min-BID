@@ -43,17 +43,17 @@ namespace Min_BID
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
             var user = (sender as Button)?.DataContext as User;
-            if (user == null)
-            {
-                MessageBox.Show("Выберите пользователя для редактирования.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-            Manager.MainFrame.Navigate(new AddEditUserWindow(user));
+            if (user == null) return;
+            var window = new AddEditUserWindow(user);
+            window.Owner = Window.GetWindow(this);
+            if (window.ShowDialog() == true) { LoadData(); }
         }
 
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Manager.MainFrame.Navigate(new AddEditUserWindow(null));
+            var window = new AddEditUserWindow(null);
+            window.Owner = Window.GetWindow(this);
+            if (window.ShowDialog() == true) { LoadData(); }
         }
 
         private void BtnDelete_Click(object sender, RoutedEventArgs e)

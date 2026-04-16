@@ -61,10 +61,12 @@ namespace Min_BID
 
         private void LoadUserData()
         {
-            txtLogin.Text = _currentUser.Логин;
-            // Выбираем роль пользователя в ComboBox
-            if (_currentUser.RolesID != 0)
-                cmbRole.SelectedValue = _currentUser.RolesID;
+            if (_currentUser != null)
+            {
+                txtLogin.Text = _currentUser.Логин;
+                if (_currentUser.RolesID != 0)
+                    cmbRole.SelectedValue = _currentUser.RolesID;
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
